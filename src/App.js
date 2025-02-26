@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [points, setPoints] = useState(0);
+
+  const incrementPoints = () => {
+    setPoints(points + 1);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Incremental Game</h1>
+      <p>Points: {points}</p>
+      <button onClick={incrementPoints}>Click Me!</button>
     </div>
   );
 }
