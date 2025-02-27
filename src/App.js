@@ -7,6 +7,7 @@ function App() {
   const [messages, setMessages] = useState(["You woke up and see a farm."]);
   const [health, setHealth] = useState(100);
   const [activeTab, setActiveTab] = useState('world');
+  const [currentLocation, setCurrentLocation] = useState('farm');
   const hasInteracted = useRef(false);
 
   // Farm income logic
@@ -50,11 +51,28 @@ function App() {
 
       {activeTab === 'world' && (
         <>
-          <h1>Farm</h1>
-          <p className="health-indicator">Health: {health}/100</p>
-          <div className="ascii-art">
-            <pre>
-              {`
+          <div className="location-buttons">
+            <button
+              onClick={() => setCurrentLocation('farm')}
+              className={currentLocation === 'farm' ? 'active' : ''}
+            >
+              Farm
+            </button>
+            <button
+              onClick={() => setCurrentLocation('forest')}
+              className={currentLocation === 'forest' ? 'active' : ''}
+            >
+              Forest
+            </button>
+          </div>
+
+          {currentLocation === 'farm' && (
+            <>
+              <h1>Farm</h1>
+              <p className="health-indicator">Health: {health}/100</p>
+              <div className="ascii-art">
+                <pre>
+                  {`
   __ _         ||| ||| ||| |||
  / _\` |        ||| ||| ||| |||
 | (_| |        ||| ||| ||| |||
@@ -62,18 +80,40 @@ function App() {
    ||          ||| ||| ||| |||
    ||          ||| ||| ||| |||
    ||          ||| ||| ||| |||
-              `}
-            </pre>
-          </div>
-          <button
-            onClick={() => {
-              hasInteracted.current = true; // Mark interaction
-              setIsFarming(!isFarming);
-            }}
-          >
-            {isFarming ? "Stop Farming" : "Start Farming"}
-          </button>
-          <p>Silver: {silver}</p>
+                  `}
+                </pre>
+              </div>
+              <button
+                onClick={() => {
+                  hasInteracted.current = true; // Mark interaction
+                  setIsFarming(!isFarming);
+                }}
+              >
+                {isFarming ? "Stop Farming" : "Start Farming"}
+              </button>
+              <p>Silver: {silver}</p>
+            </>
+          )}
+
+          {currentLocation === 'forest' && (
+            <>
+              <h1>Forest</h1>
+              <p className="health-indicator">Health: {health}/100</p>
+              <div className="ascii-art">
+                <pre>
+                  {`
+   /\\
+  /  \\
+ /____\\
+  ||||
+  ||||
+  ||||
+                  `}
+                </pre>
+              </div>
+              <p>You are in the forest. Nothing here yet.</p>
+            </>
+          )}
         </>
       )}
 
