@@ -1,10 +1,92 @@
+body {
+  margin: 0;
+  font-family: monospace;
+  background-color: white;
+  color: black;
+}
+
 .App {
   text-align: center;
-  margin-top: 50px;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px;
+  font-size: 24px;
+}
+
+.health-indicator {
+  margin: 10px;
+  font-size: 16px;
+}
+
+.ascii-art {
+  text-align: center;
+  margin-top: 20px;
+  font-family: monospace;
+  white-space: pre;
 }
 
 button {
+  margin: 10px;
   padding: 10px 20px;
-  font-size: 16px;
+  background-color: transparent;
+  color: black;
+  border: none;
   cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin: 10px;
+}
+
+.message-log {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 200px;
+  height: 100vh;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.tabs button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tabs button.active {
+  border-bottom: 2px solid black;
+}
+
+.equipment-tab {
+  margin-top: 20px;
+  text-align: left;
+  padding: 0 20px;
+}
+
+.equipment-tab h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.equipment-tab p {
+  margin: 5px 0;
 }
