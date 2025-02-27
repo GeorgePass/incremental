@@ -76,21 +76,6 @@ p {
   border-bottom: 2px solid black;
 }
 
-.equipment-tab {
-  margin-top: 20px;
-  text-align: left;
-  padding: 0 20px;
-}
-
-.equipment-tab h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.equipment-tab p {
-  margin: 5px 0;
-}
-
 .location-buttons {
   display: flex;
   justify-content: center;
@@ -109,4 +94,43 @@ p {
 
 .location-buttons button.active {
   border-bottom: 2px solid black;
+}
+
+.equipment-tab {
+  margin-top: 20px;
+  text-align: left;
+  padding: 0 20px;
+}
+
+.equipment-tab h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.equipment-tab p {
+  margin: 5px 0;
+}
+
+.equipment-tab ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.equipment-tab li {
+  margin: 10px 0;
+}
+
+.equipment-tab button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.equipment-tab button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
