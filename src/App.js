@@ -10,6 +10,7 @@ function App() {
   const maxHealth = 20;
   const [activeTab, setActiveTab] = useState('world');
   const [currentLocation, setCurrentLocation] = useState('farm');
+  const [townSublocation, setTownSublocation] = useState('streets');
   const [isExploring, setIsExploring] = useState(false);
   const [hasBranch, setHasBranch] = useState(false);
   const [equippedWeapon, setEquippedWeapon] = useState('fists');
@@ -19,6 +20,8 @@ function App() {
   const [furs, setFurs] = useState(0);
   const [hunger, setHunger] = useState(100);
   const maxHunger = 100;
+  const [silver, setSilver] = useState(0);
+  const [hasSword, setHasSword] = useState(false);
   const hasInteracted = useRef(false);
 
   // Farm income logic
@@ -100,7 +103,15 @@ function App() {
     const attackCooldownDuration = hunger > 0 ? 4 : 8; // 4 seconds if not famished, 8 seconds if famished
     if (!inCombat || attackCooldown > 0) return; // Only attack if in combat and cooldown is 0
 
-    const damage = equippedWeapon === 'fists' ? 1 : Math.floor(Math.random() * 4) + 1; // 1-4 damage for branch
+    let damage;
+    if (equippedWeapon === 'fists') {
+      damage = 1;
+    } else if (equippedWeapon === 'branch') {
+      damage = Math.floor(Math.random() * 4) + 1; // 1-4 damage
+    } else if (equippedWeapon === 'sword') {
+      damage = Math.floor(Math.random() * 6) + 1; // 1-6 damage
+    }
+
     setWolfHealth((prevHealth) => Math.max(0, prevHealth - damage)); // Reduce wolf health
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -157,6 +168,33 @@ function App() {
     }
   }, [hunger, food]);
 
+  // Shop logic
+  const sellFood = (amount) => {
+    if (food >= amount) {
+      setFood((prevFood) => prevFood - amount);
+      setSilver((prevSilver) => prevSilver + amount);
+      setMessages((prevMessages) => [...prevMessages, `Sold ${amount} food for ${amount} silver.`]);
+    }
+  };
+
+  const sellFur = (amount) => {
+    if (furs >= amount) {
+      setFurs((prevFurs) => prevFurs - amount);
+      setSilver((prevSilver) => prevSilver + 100 * amount);
+      setMessages((prevMessages) => [...prevMessages, `Sold ${amount} fur for ${100 * amount} silver.`]);
+    }
+  };
+
+  const buySword = () => {
+    if (silver >= 250) {
+      setSilver((prevSilver) => prevSilver - 250);
+      setHasSword(true);
+      setMessages((prevMessages) => [...prevMessages, "You bought a sword! It deals 1-6 damage."]);
+    } else {
+      setMessages((prevMessages) => [...prevMessages, "You don't have enough silver to buy a sword."]);
+    }
+  };
+
   // Switch location logic
   const switchLocation = (location) => {
     if (currentLocation === 'farm' && location !== 'farm') {
@@ -197,6 +235,12 @@ function App() {
             >
               Forest
             </button>
+            <button
+              onClick={() => switchLocation('town')}
+              className={currentLocation === 'town' ? 'active' : ''}
+            >
+              A Small Town
+            </button>
           </div>
 
           {currentLocation === 'farm' && (
@@ -206,6 +250,7 @@ function App() {
               <p>Hunger: {hunger}/{maxHunger}</p>
               <p>Food: {food}/{maxFood}</p>
               <p>Furs: {furs}</p>
+              <p>Silver: {silver}</p>
               <div className="ascii-art">
                 <pre>
                   {`
@@ -237,6 +282,7 @@ function App() {
               <p>Hunger: {hunger}/{maxHunger}</p>
               <p>Food: {food}/{maxFood}</p>
               <p>Furs: {furs}</p>
+              <p>Silver: {silver}</p>
               <div className="ascii-art">
                 <pre>
                   {`
@@ -293,13 +339,68 @@ function App() {
               )}
             </>
           )}
+
+          {currentLocation === 'town' && (
+            <>
+              <h1>A Small Town</h1>
+              <div className="location-buttons">
+                <button
+                  onClick={() => setTownSublocation('streets')}
+                  className={townSublocation === 'streets' ? 'active' : ''}
+                >
+                  Streets
+                </button>
+                <button
+                  onClick={() => setTownSublocation('shop')}
+                  className={townSublocation === 'shop' ? 'active' : ''}
+                >
+                  Shop
+                </button>
+              </div>
+
+              {townSublocation === 'streets' && (
+                <div className="ascii-art">
+                  <pre>
+                    {`
+   _______
+  /       \\
+ |  Town   |
+  \\_______/
+    |   |
+    |   |
+    |   |
+                    `}
+                  </pre>
+                  <p>You are in the streets of the town.</p>
+                </div>
+              )}
+
+              {townSublocation === 'shop' && (
+                <div className="shop">
+                  <h2>Shop</h2>
+                  <p>Silver: {silver}</p>
+                  <p>Food: {food}</p>
+                  <p>Furs: {furs}</p>
+                  <button onClick={() => sellFood(1)} disabled={food < 1}>
+                    Sell 1 Food (1 Silver)
+                  </button>
+                  <button onClick={() => sellFur(1)} disabled={furs < 1}>
+                    Sell 1 Fur (100 Silver)
+                  </button>
+                  <button onClick={() => buySword()} disabled={silver < 250}>
+                    Buy Sword (250 Silver)
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </>
       )}
 
       {activeTab === 'equipment' && (
         <div className="equipment-tab">
           <h2>Weapon</h2>
-          <p>Equipped: {equippedWeapon === 'fists' ? 'Fists' : 'Branch'}</p>
+          <p>Equipped: {equippedWeapon === 'fists' ? 'Fists' : equippedWeapon === 'branch' ? 'Branch' : 'Sword'}</p>
           <p>Damage:</p>
           <ul>
             <li>
@@ -319,6 +420,17 @@ function App() {
                   disabled={equippedWeapon === 'branch'}
                 >
                   Equip Branch
+                </button>
+              </li>
+            )}
+            {hasSword && (
+              <li>
+                Sword: 1-6 damage
+                <button
+                  onClick={() => setEquippedWeapon('sword')}
+                  disabled={equippedWeapon === 'sword'}
+                >
+                  Equip Sword
                 </button>
               </li>
             )}
