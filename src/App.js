@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
-  const [silver, setSilver] = useState(0);
+  const [food, setFood] = useState(0);
+  const maxFood = 10;
   const [isFarming, setIsFarming] = useState(false);
   const [messages, setMessages] = useState(["You woke up and see a farm."]);
   const [health, setHealth] = useState(20);
@@ -16,6 +17,8 @@ function App() {
   const [wolfHealth, setWolfHealth] = useState(10);
   const [attackCooldown, setAttackCooldown] = useState(0);
   const [furs, setFurs] = useState(0);
+  const [hunger, setHunger] = useState(100);
+  const maxHunger = 100;
   const hasInteracted = useRef(false);
 
   // Farm income logic
@@ -23,8 +26,8 @@ function App() {
     let interval;
     if (isFarming) {
       interval = setInterval(() => {
-        setSilver((prevSilver) => prevSilver + 1); // Generate 1 silver per second
-      }, 1000); // 1000ms = 1 second
+        setFood((prevFood) => Math.min(maxFood, prevFood + 1)); // Generate 1 food per 3 seconds
+      }, 3000); // 3000ms = 3 seconds
     }
     return () => clearInterval(interval); // Cleanup on unmount or when isFarming changes
   }, [isFarming]);
@@ -94,6 +97,7 @@ function App() {
 
   // Player attack logic
   const playerAttack = () => {
+    const attackCooldownDuration = hunger > 0 ? 4 : 8; // 4 seconds if not famished, 8 seconds if famished
     if (!inCombat || attackCooldown > 0) return; // Only attack if in combat and cooldown is 0
 
     const damage = equippedWeapon === 'fists' ? 1 : Math.floor(Math.random() * 4) + 1; // 1-4 damage for branch
@@ -109,7 +113,7 @@ function App() {
       setFurs((prevFurs) => prevFurs + 1); // Add furs
     }
 
-    setAttackCooldown(4); // Start cooldown
+    setAttackCooldown(attackCooldownDuration); // Start cooldown
   };
 
   // Attack cooldown logic
@@ -126,13 +130,32 @@ function App() {
   // Health regeneration logic
   useEffect(() => {
     let interval;
-    if (health < maxHealth) {
+    if (health < maxHealth && hunger > 0) { // Only regenerate if not famished
       interval = setInterval(() => {
         setHealth((prevHealth) => Math.min(maxHealth, prevHealth + 1)); // Regenerate 1 HP
       }, 4000); // Regenerate every 4 seconds
     }
     return () => clearInterval(interval); // Cleanup on unmount or when health is full
-  }, [health, maxHealth]);
+  }, [health, maxHealth, hunger]);
+
+  // Hunger logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHunger((prevHunger) => Math.max(0, prevHunger - 1)); // Decrease hunger by 1 every second
+    }, 1000); // 1000ms = 1 second
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
+  // Automatically eat food when hunger drops to 0
+  useEffect(() => {
+    if (hunger <= 0 && food > 0) {
+      setFood((prevFood) => prevFood - 1); // Consume 1 food
+      setHunger(maxHunger); // Restore hunger to 100
+      setMessages((prevMessages) => [...prevMessages, "You ate some food and feel less hungry."]);
+    } else if (hunger <= 0 && food === 0) {
+      setMessages((prevMessages) => [...prevMessages, "You are famished. Slower attack and no regeneration."]);
+    }
+  }, [hunger, food]);
 
   // Switch location logic
   const switchLocation = (location) => {
@@ -180,6 +203,8 @@ function App() {
             <>
               <h1>Farm</h1>
               <p className="health-indicator">Health: {health}/{maxHealth}</p>
+              <p>Hunger: {hunger}/{maxHunger}</p>
+              <p>Food: {food}/{maxFood}</p>
               <p>Furs: {furs}</p>
               <div className="ascii-art">
                 <pre>
@@ -202,7 +227,6 @@ function App() {
               >
                 {isFarming ? "Stop Farming" : "Start Farming"}
               </button>
-              <p>Silver: {silver}</p>
             </>
           )}
 
@@ -210,6 +234,8 @@ function App() {
             <>
               <h1>Forest</h1>
               <p className="health-indicator">Health: {health}/{maxHealth}</p>
+              <p>Hunger: {hunger}/{maxHunger}</p>
+              <p>Food: {food}/{maxFood}</p>
               <p>Furs: {furs}</p>
               <div className="ascii-art">
                 <pre>
@@ -249,7 +275,7 @@ function App() {
                           position: 'absolute',
                           top: 0,
                           left: 0,
-                          width: `${(attackCooldown / 4) * 100}%`,
+                          width: `${(attackCooldown / (hunger > 0 ? 4 : 8)) * 100}%`,
                           height: '100%',
                           backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         }}
