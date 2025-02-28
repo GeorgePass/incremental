@@ -149,6 +149,17 @@ function App() {
     return () => clearInterval(interval); // Cleanup on unmount or when health is full
   }, [health, maxHealth, hunger]);
 
+  // Health regeneration logic
+  useEffect(() => {
+    let interval;
+    if (health < maxHealth) {
+      interval = setInterval(() => {
+        setHealth((prevHealth) => Math.min(maxHealth, prevHealth + 1)); // Regenerate 1 HP
+      }, 4000); // Regenerate every 4 seconds
+    }
+    return () => clearInterval(interval); // Cleanup on unmount or when health is full
+  }, [health, maxHealth]);
+
   // Hunger logic
   useEffect(() => {
     const interval = setInterval(() => {
