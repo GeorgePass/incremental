@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/GeorgePass/incremental/static/css/main.9ce85e76.css",
-    "main.js": "/GeorgePass/incremental/static/js/main.1d2b006e.js",
-    "static/js/453.3cb1b7aa.chunk.js": "/GeorgePass/incremental/static/js/453.3cb1b7aa.chunk.js",
-    "index.html": "/GeorgePass/incremental/index.html",
-    "main.9ce85e76.css.map": "/GeorgePass/incremental/static/css/main.9ce85e76.css.map",
-    "main.1d2b006e.js.map": "/GeorgePass/incremental/static/js/main.1d2b006e.js.map",
-    "453.3cb1b7aa.chunk.js.map": "/GeorgePass/incremental/static/js/453.3cb1b7aa.chunk.js.map"
+    "main.css": "/incremental/static/css/main.9ce85e76.css",
+    "main.js": "/incremental/static/js/main.fcdcc465.js",
+    "static/js/453.3cb1b7aa.chunk.js": "/incremental/static/js/453.3cb1b7aa.chunk.js",
+    "index.html": "/incremental/index.html",
+    "main.9ce85e76.css.map": "/incremental/static/css/main.9ce85e76.css.map",
+    "main.fcdcc465.js.map": "/incremental/static/js/main.fcdcc465.js.map",
+    "453.3cb1b7aa.chunk.js.map": "/incremental/static/js/453.3cb1b7aa.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9ce85e76.css",
-    "static/js/main.1d2b006e.js"
+    "static/js/main.fcdcc465.js"
   ]
 }
