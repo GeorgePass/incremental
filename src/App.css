@@ -1,0 +1,226 @@
+body {
+  margin: 0;
+  font-family: monospace;
+  background-color: white;
+  color: black;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px;
+  font-size: 24px;
+}
+
+.ascii-art {
+  text-align: center;
+  margin-top: 20px;
+  font-family: monospace;
+  white-space: pre;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin: 10px;
+}
+
+.message-log {
+  position: fixed;
+  right: 20px; /* Space from the right edge */
+  top: 20px; /* Space from the top edge */
+  width: 200px;
+  height: calc(100vh - 40px); /* Adjust height to account for padding */
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-left: 1px solid #ccc;
+  border-radius: 4px; /* Rounded corners */
+}
+
+.message {
+  margin: 5px 0;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.message.fade {
+  opacity: 0;
+}
+
+/* Main tabs (World/Equipment) */
+.tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0;
+  width: 100%;
+}
+
+.tabs button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tabs button.active {
+  border-bottom: 2px solid black;
+}
+
+/* Location buttons (Farm/Forest/Town) */
+.location-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Ensure vertical alignment */
+  margin-top: 10px;
+  padding: 0;
+  width: 100%;
+}
+
+.location-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.location-buttons button.active {
+  border-bottom: 2px solid black;
+}
+
+/* Sublocation buttons (Streets/Shop in Town) */
+.sublocation-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Ensure vertical alignment */
+  margin-top: 10px;
+  padding: 0;
+  width: 100%;
+}
+
+.sublocation-buttons button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sublocation-buttons button.active {
+  border-bottom: 2px solid black;
+}
+
+.weapons-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.weapons-list li {
+  margin: 12px 0;
+  font-size: 16px;
+}
+
+.equip-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.equip-button:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.equip-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.farm-location,
+.forest-location,
+.town-location {
+  margin-top: 20px;
+}
+
+/* PlayerStats section */
+.player-stats {
+  position: absolute; /* Use absolute positioning */
+  top: 20px; /* Space from the top edge */
+  left: 20px; /* Space from the left edge */
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  z-index: 1000;
+  font-size: 14px;
+  text-align: left;
+}
+
+.player-stats p {
+  margin: 2px 0;
+}
+
+/* World container */
+.world-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+.locations-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .player-stats {
+    position: static;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .message-log {
+    right: 10px;
+    top: 10px;
+    width: 150px;
+    height: calc(100vh - 20px);
+  }
+}
