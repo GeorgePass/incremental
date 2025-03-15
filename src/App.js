@@ -6,6 +6,7 @@ import PlayerStats from './PlayerStats';
 import Inventory from './Inventory';
 import { WOLF, BEAR } from './Creatures';
 import Combat from './Combat'; // Import the custom hook
+import Dungeon from './Dungeon';
 
 function App() {
   const [food, setFood] = useState(0);
@@ -15,18 +16,20 @@ function App() {
   const [hasBranch, setHasBranch] = useState(false);
   const [hasSword, setHasSword] = useState(false);
   const [armor, setArmor] = useState(0);
-	const [hasLeatherArmor, setHasLeatherArmor] = useState(false);
+  const [hasLeatherArmor, setHasLeatherArmor] = useState(false);
   const [equippedWeapon, setEquippedWeapon] = useState('fists');
   const [hunger, setHunger] = useState(100);
   const maxHunger = 100;
+  const [maxHealth, setMaxHealth] = useState(20); // Define maxHealth
   const [messages, setMessages] = useState(["You woke up and see a farm."]);
   const [isFarming, setIsFarming] = useState(false);
   const [isExploring, setIsExploring] = useState(false);
   const [currentLocation, setCurrentLocation] = useState('farm');
   const [townSublocation, setTownSublocation] = useState('streets');
   const [activeTab, setActiveTab] = useState('world');
-	const [equippedArmor, setEquippedArmor] = useState('plain');
+  const [equippedArmor, setEquippedArmor] = useState('plain');
   const messageBarRef = useRef(null);
+  const [inDungeon, setInDungeon] = useState(false); // Add inDungeon state
 
   // Add a new message
   const addMessage = (message) => {
@@ -36,17 +39,16 @@ function App() {
     });
   };
 
-
   // Scroll to the bottom when a new message is added
   useEffect(() => {
     if (messageBarRef.current) {
       messageBarRef.current.scrollTop = messageBarRef.current.scrollHeight;
     }
   }, [messages]);
-	
-	 const onDefeatMonster = (fursDropped) => {
-  setFurs((prevFurs) => prevFurs + fursDropped);
-};
+
+  const onDefeatMonster = (fursDropped) => {
+    setFurs((prevFurs) => prevFurs + fursDropped);
+  };
 
   // Use the custom combat hook
   const { health, inCombat, currentCreature, attackCooldown, playerAttack, startCombat } = Combat(
@@ -54,21 +56,21 @@ function App() {
     addMessage,
     equippedWeapon,
     hunger,
-	20,
-	onDefeatMonster,
-	armor,
-	food	
+    20,
+    onDefeatMonster,
+    armor,
+    food
   );
-  
+
   // Armor
   useEffect(() => {
-  if (equippedArmor === 'leather') {
-    setArmor(1);
-  } else {
-    setArmor(0);
-  }
-}, [equippedArmor]);
-  
+    if (equippedArmor === 'leather') {
+      setArmor(1);
+    } else {
+      setArmor(0);
+    }
+  }, [equippedArmor]);
+
   // Explore logic
   useEffect(() => {
     let interval;
@@ -99,9 +101,7 @@ function App() {
     }
     return () => clearInterval(interval);
   }, [isFarming]);
-  
- 
-  
+
   // Hunger logic
   useEffect(() => {
     const interval = setInterval(() => {
@@ -121,6 +121,14 @@ function App() {
     }
   }, [hunger, food]);
 
+	useEffect(() => {
+		  if (inDungeon) {
+			document.body.classList.add('dungeon-mode');
+		  } else {
+			document.body.classList.remove('dungeon-mode');
+		  }
+	}, [inDungeon]);
+		
   // Shop logic
   const sellFood = (amount) => {
     if (food >= amount) {
@@ -147,17 +155,16 @@ function App() {
       addMessage("You don't have enough silver to buy a sword.");
     }
   };
-  
-  const buyLeatherArmor = () => {
-  if (silver >= 100) {
-    setSilver((prevSilver) => prevSilver - 100);
-    setHasLeatherArmor(true);
-    addMessage("You bought leather armor! It reduces damage taken by 1.");
-  } else {
-    addMessage("You don't have enough silver to buy leather armor.");
-  }
-};
 
+  const buyLeatherArmor = () => {
+    if (silver >= 100) {
+      setSilver((prevSilver) => prevSilver - 100);
+      setHasLeatherArmor(true);
+      addMessage("You bought leather armor! It reduces damage taken by 1.");
+    } else {
+      addMessage("You don't have enough silver to buy leather armor.");
+    }
+  };
 
   // Switch location logic
   const switchLocation = (location) => {
@@ -166,32 +173,30 @@ function App() {
     }
     setCurrentLocation(location);
   };
-  
- 
 
-
-return (
+  return (
     <div className="App">
       {/* PlayerStats is now fixed and always visible */}
       <PlayerStats
         health={health}
-        maxHealth={20}
+        maxHealth={maxHealth}
         hunger={hunger}
         maxHunger={maxHunger}
         equippedWeapon={equippedWeapon}
-		armor={armor}
-		food={food}
-          maxFood={maxFood}
-          furs={furs}
-          silver={silver}
+        armor={armor}
+        food={food}
+        maxFood={maxFood}
+        furs={furs}
+        silver={silver}
       />
 
+      {/* Tabs */}
       <div className="tabs">
         <button
           onClick={() => setActiveTab('world')}
           className={activeTab === 'world' ? 'active' : ''}
         >
-          World
+          {inDungeon ? 'Dungeon' : 'World'} {/* Change text based on inDungeon */}
         </button>
         <button
           onClick={() => setActiveTab('equipment')}
@@ -226,9 +231,12 @@ return (
             food={food}
             furs={furs}
             silver={silver}
-			 hasLeatherArmor={hasLeatherArmor}
-			 buyLeatherArmor={buyLeatherArmor}
-			setHasLeatherArmor={setHasLeatherArmor}
+            hasLeatherArmor={hasLeatherArmor}
+            buyLeatherArmor={buyLeatherArmor}
+            setHasLeatherArmor={setHasLeatherArmor}
+            inDungeon={inDungeon}
+            setInDungeon={setInDungeon}
+            playerStats={{ health, maxHealth, hunger, maxHunger, equippedWeapon, armor, food, furs, silver }}
           />
         </div>
       )}
@@ -239,12 +247,10 @@ return (
           hasSword={hasSword}
           equippedWeapon={equippedWeapon}
           setEquippedWeapon={setEquippedWeapon}
-		  equippedArmor={equippedArmor}
-			setEquippedArmor={setEquippedArmor}
-			hasLeatherArmor={hasLeatherArmor}
-		  equippedArmor={equippedArmor}
-		  setEquippedArmor={setEquippedArmor}
-
+          equippedArmor={equippedArmor}
+          setEquippedArmor={setEquippedArmor}
+          hasLeatherArmor={hasLeatherArmor}
+          inDungeon={inDungeon} // Pass inDungeon to Inventory
         />
       )}
 

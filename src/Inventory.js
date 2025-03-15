@@ -1,5 +1,6 @@
 // Inventory.js
 import React from 'react';
+import './App.css';
 
 const Inventory = ({
   food,
@@ -13,9 +14,10 @@ const Inventory = ({
   hasLeatherArmor,
   equippedArmor,
   setEquippedArmor,
+  inDungeon, // Add inDungeon prop
 }) => {
   return (
-    <div className="inventory">
+    <div className={`inventory ${inDungeon ? 'dungeon-mode' : ''}`}>
       <h2>Inventory</h2>
 
       {/* Weapons Section */}

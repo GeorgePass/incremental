@@ -1,8 +1,33 @@
+/* App.css */
 body {
   margin: 0;
   font-family: monospace;
   background-color: white;
   color: black;
+}
+
+body.dungeon-mode {
+  background-color: black;
+  color: white;
+}
+
+body.dungeon-mode .player-stats {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+}
+
+body.dungeon-mode .message-log {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+}
+
+body.dungeon-mode button {
+  color: white;
+  border: 1px solid white;
+}
+
+body.dungeon-mode button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .App {
@@ -207,6 +232,25 @@ p {
   align-items: center;
 }
 
+/* Inventory in Dungeon Mode */
+.inventory.dungeon-mode {
+  background-color: black;
+  color: white;
+  height: 100vh; /* Fill the entire screen height */
+  width: 100vw; /* Fill the entire screen width */
+  padding: 20px; /* Add some padding */
+  box-sizing: border-box; /* Ensure padding is included in height/width */
+}
+
+.inventory.dungeon-mode .equip-button {
+  color: white;
+  border: 1px solid white;
+}
+
+.inventory.dungeon-mode .equip-button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .player-stats {
@@ -224,3 +268,4 @@ p {
     height: calc(100vh - 20px);
   }
 }
+
