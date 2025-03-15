@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/GeorgePass/incremental/static/css/main.9d1913da.css",
-    "main.js": "/GeorgePass/incremental/static/js/main.9e12d464.js",
+    "main.css": "/GeorgePass/incremental/static/css/main.ffff9470.css",
+    "main.js": "/GeorgePass/incremental/static/js/main.399116f5.js",
     "static/js/453.3cb1b7aa.chunk.js": "/GeorgePass/incremental/static/js/453.3cb1b7aa.chunk.js",
     "index.html": "/GeorgePass/incremental/index.html",
-    "main.9d1913da.css.map": "/GeorgePass/incremental/static/css/main.9d1913da.css.map",
-    "main.9e12d464.js.map": "/GeorgePass/incremental/static/js/main.9e12d464.js.map",
+    "main.ffff9470.css.map": "/GeorgePass/incremental/static/css/main.ffff9470.css.map",
+    "main.399116f5.js.map": "/GeorgePass/incremental/static/js/main.399116f5.js.map",
     "453.3cb1b7aa.chunk.js.map": "/GeorgePass/incremental/static/js/453.3cb1b7aa.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9d1913da.css",
-    "static/js/main.9e12d464.js"
+    "static/css/main.ffff9470.css",
+    "static/js/main.399116f5.js"
   ]
 }
