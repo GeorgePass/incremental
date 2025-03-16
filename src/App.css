@@ -41,7 +41,7 @@ body.dungeon-mode button:hover {
 h1 {
   margin: 0;
   padding: 10px;
-  font-size: 24px;
+  font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive font size */
 }
 
 .ascii-art {
@@ -58,7 +58,7 @@ button {
   color: black;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem; /* Use rem for font size */
 }
 
 button:hover {
@@ -110,7 +110,7 @@ p {
   color: black;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem; /* Use rem for font size */
 }
 
 .tabs button.active {
@@ -134,7 +134,7 @@ p {
   color: black;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem; /* Use rem for font size */
 }
 
 .location-buttons button.active {
@@ -158,7 +158,7 @@ p {
   color: black;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem; /* Use rem for font size */
 }
 
 .sublocation-buttons button.active {
@@ -172,7 +172,7 @@ p {
 
 .weapons-list li {
   margin: 12px 0;
-  font-size: 16px;
+  font-size: 1rem; /* Use rem for font size */
 }
 
 .equip-button {
@@ -182,7 +182,7 @@ p {
   color: black;
   border: 1px solid black;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.9rem; /* Use rem for font size */
   border-radius: 4px;
   transition: background-color 0.2s ease;
 }
@@ -267,5 +267,42 @@ p {
     width: 150px;
     height: calc(100vh - 20px);
   }
+
+  .tabs button,
+  .location-buttons button,
+  .sublocation-buttons button {
+    font-size: 0.9rem; /* Smaller font size for smaller screens */
+    padding: 4px 8px; /* Smaller padding for smaller screens */
+  }
+
+  .equip-button {
+    font-size: 0.8rem; /* Smaller font size for smaller screens */
+    padding: 4px 8px; /* Smaller padding for smaller screens */
+  }
+
+  .weapons-list li {
+    font-size: 0.9rem; /* Smaller font size for smaller screens */
+  }
 }
 
+/* Vertical orientation adjustments */
+@media (orientation: portrait) {
+  .container {
+    flex-direction: column;
+  }
+
+  .player-stats {
+    position: static;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .message-log {
+    right: 10px;
+    top: 10px;
+    width: 150px;
+    height: calc(100vh - 20px);
+  }
+}
