@@ -72,7 +72,7 @@ p {
 /* Message log */
 .message-log {
   position: fixed;
-  right: 20px; /* Space from the right edge */
+  right: 10px; /* Move back slightly */
   top: 20px; /* Space from the top edge */
   width: 200px;
   height: calc(100vh - 40px); /* Adjust height to account for padding */
@@ -80,8 +80,8 @@ p {
   overflow-y: auto;
   font-size: 14px;
   background-color: rgba(255, 255, 255, 0.9);
-  border-left: 1px solid #ccc;
-  border-radius: 4px; /* Rounded corners */
+  border: none; /* Remove border */
+  border-radius: 0; /* Remove rounded corners */
   z-index: 1000; /* Ensure it floats above other content */
   transition: transform 0.3s ease; /* Smooth transition for collapsing */
 }
@@ -108,14 +108,17 @@ p {
 @media (max-width: 768px) {
   .message-log {
     right: 10px;
-    top: 10px;
-    width: 150px; /* Smaller width */
-    height: 200px; /* Smaller height */
+    top: auto; /* Move to the bottom */
+    bottom: 10px; /* Space from the bottom edge */
+    width: calc(100% - 20px); /* Full width with padding */
+    height: 150px; /* Fixed height for smaller screens */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
   }
 
   .toggle-log-button {
     right: 10px;
-    bottom: 220px; /* Position above the message log */
+    bottom: 170px; /* Position above the message log */
   }
 }
 
@@ -123,14 +126,19 @@ p {
 @media (orientation: portrait) {
   .message-log {
     right: 10px;
-    top: 10px;
-    width: 150px; /* Smaller width */
-    height: 200px; /* Smaller height */
+    top: auto; /* Move to the bottom */
+    bottom: 10px; /* Space from the bottom edge */
+    width: calc(100% - 20px); /* Full width with padding */
+    height: 150px; /* Fixed height for smaller screens */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    z-index: -1; /* Render beneath everything else */
   }
 
   .toggle-log-button {
     right: 10px;
-    bottom: 220px; /* Position above the message log */
+    bottom: 170px; /* Position above the message log */
+    z-index: 1000; /* Ensure it floats above other content */
   }
 }
 
@@ -255,12 +263,12 @@ p {
 
 /* PlayerStats section */
 .player-stats {
-  position: fixed; /* Use fixed positioning */
-  top: 20px; /* Space from the top edge */
+  position: absolute; /* Use absolute positioning for PC screens */
+  top: 60px; /* Move down slightly */
   left: 20px; /* Space from the left edge */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 10px;
-  z-index: -1; /* Render beneath everything else */
+  z-index: 1000; /* Ensure it floats above other content */
   font-size: 14px;
   text-align: left;
 }
@@ -305,9 +313,10 @@ p {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .player-stats {
-    position: fixed; /* Keep stats visible even when scrolling */
-    top: 10px;
-    left: 10px;
+    position: fixed; /* Use fixed positioning for smaller screens */
+    top: auto; /* Move to the bottom */
+    bottom: 170px; /* Space from the bottom edge */
+    left: 10px; /* Space from the left edge */
     width: auto;
     margin-bottom: 0;
     background-color: rgba(255, 255, 255, 0.9);
@@ -317,14 +326,19 @@ p {
 
   .message-log {
     right: 10px;
-    top: 10px;
-    width: 150px;
-    height: 200px;
+    top: auto; /* Move to the bottom */
+    bottom: 10px; /* Space from the bottom edge */
+    width: calc(100% - 20px); /* Full width with padding */
+    height: 150px; /* Fixed height for smaller screens */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove rounded corners */
+    z-index: -1; /* Render beneath everything else */
   }
 
   .toggle-log-button {
     right: 10px;
-    bottom: 220px; /* Position above the message log */
+    bottom: 170px; /* Position above the message log */
+    z-index: 1000; /* Ensure it floats above other content */
   }
 
   .tabs button,
