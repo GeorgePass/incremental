@@ -30,7 +30,13 @@ function App() {
   const [equippedArmor, setEquippedArmor] = useState('plain');
   const messageBarRef = useRef(null);
   const [inDungeon, setInDungeon] = useState(false); // Add inDungeon state
+const [isLogCollapsed, setIsLogCollapsed] = useState(false);
 
+
+	const toggleLog = () => {
+		setIsLogCollapsed(!isLogCollapsed);
+	  };
+	  
   // Add a new message
   const addMessage = (message) => {
     setMessages((prevMessages) => {
@@ -174,95 +180,101 @@ function App() {
     setCurrentLocation(location);
   };
 
-  return (
-    <div className="App">
-      {/* PlayerStats is now fixed and always visible */}
-      <PlayerStats
-        health={health}
-        maxHealth={maxHealth}
-        hunger={hunger}
-        maxHunger={maxHunger}
-        equippedWeapon={equippedWeapon}
-        armor={armor}
-        food={food}
-        maxFood={maxFood}
-        furs={furs}
-        silver={silver}
-      />
+ return (
+  <div className="App">
+    {/* PlayerStats is now fixed and always visible */}
+    <PlayerStats
+      health={health}
+      maxHealth={maxHealth}
+      hunger={hunger}
+      maxHunger={maxHunger}
+      equippedWeapon={equippedWeapon}
+      armor={armor}
+      food={food}
+      maxFood={maxFood}
+      furs={furs}
+      silver={silver}
+    />
 
-      {/* Tabs */}
-      <div className="tabs">
-        <button
-          onClick={() => setActiveTab('world')}
-          className={activeTab === 'world' ? 'active' : ''}
-        >
-          {inDungeon ? 'Dungeon' : 'World'} {/* Change text based on inDungeon */}
-        </button>
-        <button
-          onClick={() => setActiveTab('equipment')}
-          className={activeTab === 'equipment' ? 'active' : ''}
-        >
-          Equipment
-        </button>
-      </div>
+    {/* Tabs */}
+    <div className="tabs">
+      <button
+        onClick={() => setActiveTab('world')}
+        className={activeTab === 'world' ? 'active' : ''}
+      >
+        {inDungeon ? 'Dungeon' : 'World'} {/* Change text based on inDungeon */}
+      </button>
+      <button
+        onClick={() => setActiveTab('equipment')}
+        className={activeTab === 'equipment' ? 'active' : ''}
+      >
+        Equipment
+      </button>
+    </div>
 
-      {activeTab === 'world' && (
-        <div className="world-container">
-          <Locations
-            currentLocation={currentLocation}
-            switchLocation={switchLocation}
-            townSublocation={townSublocation}
-            setTownSublocation={setTownSublocation}
-            isFarming={isFarming}
-            setIsFarming={setIsFarming}
-            inCombat={inCombat}
-            isExploring={isExploring}
-            setIsExploring={setIsExploring}
-            playerAttack={playerAttack}
-            attackCooldown={attackCooldown}
-            currentCreature={currentCreature}
-            hasBranch={hasBranch}
-            hasSword={hasSword}
-            equippedWeapon={equippedWeapon}
-            sellFood={sellFood}
-            sellFur={sellFur}
-            buySword={buySword}
-            hunger={hunger}
-            food={food}
-            furs={furs}
-            silver={silver}
-            hasLeatherArmor={hasLeatherArmor}
-            buyLeatherArmor={buyLeatherArmor}
-            setHasLeatherArmor={setHasLeatherArmor}
-            inDungeon={inDungeon}
-            setInDungeon={setInDungeon}
-            playerStats={{ health, maxHealth, hunger, maxHunger, equippedWeapon, armor, food, furs, silver }}
-          />
-        </div>
-      )}
-
-      {activeTab === 'equipment' && (
-        <Inventory
+    {activeTab === 'world' && (
+      <div className="world-container">
+        <Locations
+          currentLocation={currentLocation}
+          switchLocation={switchLocation}
+          townSublocation={townSublocation}
+          setTownSublocation={setTownSublocation}
+          isFarming={isFarming}
+          setIsFarming={setIsFarming}
+          inCombat={inCombat}
+          isExploring={isExploring}
+          setIsExploring={setIsExploring}
+          playerAttack={playerAttack}
+          attackCooldown={attackCooldown}
+          currentCreature={currentCreature}
           hasBranch={hasBranch}
           hasSword={hasSword}
           equippedWeapon={equippedWeapon}
-          setEquippedWeapon={setEquippedWeapon}
-          equippedArmor={equippedArmor}
-          setEquippedArmor={setEquippedArmor}
+          sellFood={sellFood}
+          sellFur={sellFur}
+          buySword={buySword}
+          hunger={hunger}
+          food={food}
+          furs={furs}
+          silver={silver}
           hasLeatherArmor={hasLeatherArmor}
-          inDungeon={inDungeon} // Pass inDungeon to Inventory
+          buyLeatherArmor={buyLeatherArmor}
+          setHasLeatherArmor={setHasLeatherArmor}
+          inDungeon={inDungeon}
+          setInDungeon={setInDungeon}
+          playerStats={{ health, maxHealth, hunger, maxHunger, equippedWeapon, armor, food, furs, silver }}
         />
-      )}
-
-      <div className="message-log" ref={messageBarRef}>
-        {messages.map((message, index) => (
-          <p key={index} className="message">
-            {message}
-          </p>
-        ))}
       </div>
+    )}
+
+    {activeTab === 'equipment' && (
+      <Inventory
+        hasBranch={hasBranch}
+        hasSword={hasSword}
+        equippedWeapon={equippedWeapon}
+        setEquippedWeapon={setEquippedWeapon}
+        equippedArmor={equippedArmor}
+        setEquippedArmor={setEquippedArmor}
+        hasLeatherArmor={hasLeatherArmor}
+        inDungeon={inDungeon} // Pass inDungeon to Inventory
+      />
+    )}
+
+    {/* Collapsible Message Log */}
+    <div className={`message-log ${isLogCollapsed ? 'collapsed' : ''}`} ref={messageBarRef}>
+      {messages.map((message, index) => (
+        <p key={index} className="message">
+          {message}
+        </p>
+      ))}
     </div>
-  );
+
+    {/* Toggle Button for Message Log */}
+    <button className="toggle-log-button" onClick={toggleLog}>
+      {isLogCollapsed ? 'Show Log' : 'Hide Log'}
+    </button>
+  </div>
+);
 }
 
 export default App;

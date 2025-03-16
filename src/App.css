@@ -69,6 +69,7 @@ p {
   margin: 10px;
 }
 
+/* Message log */
 .message-log {
   position: fixed;
   right: 20px; /* Space from the right edge */
@@ -81,6 +82,56 @@ p {
   background-color: rgba(255, 255, 255, 0.9);
   border-left: 1px solid #ccc;
   border-radius: 4px; /* Rounded corners */
+  z-index: 1000; /* Ensure it floats above other content */
+  transition: transform 0.3s ease; /* Smooth transition for collapsing */
+}
+
+/* Collapsed state */
+.message-log.collapsed {
+  transform: translateX(100%); /* Hide off-screen */
+}
+
+/* Toggle button for message log */
+.toggle-log-button {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it floats above other content */
+}
+
+/* Message log adjustments for smaller screens */
+@media (max-width: 768px) {
+  .message-log {
+    right: 10px;
+    top: 10px;
+    width: 150px; /* Smaller width */
+    height: 200px; /* Smaller height */
+  }
+
+  .toggle-log-button {
+    right: 10px;
+    bottom: 220px; /* Position above the message log */
+  }
+}
+
+/* Vertical orientation adjustments */
+@media (orientation: portrait) {
+  .message-log {
+    right: 10px;
+    top: 10px;
+    width: 150px; /* Smaller width */
+    height: 200px; /* Smaller height */
+  }
+
+  .toggle-log-button {
+    right: 10px;
+    bottom: 220px; /* Position above the message log */
+  }
 }
 
 .message {
@@ -204,12 +255,12 @@ p {
 
 /* PlayerStats section */
 .player-stats {
-  position: absolute; /* Use absolute positioning */
+  position: fixed; /* Use fixed positioning */
   top: 20px; /* Space from the top edge */
   left: 20px; /* Space from the left edge */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 10px;
-  z-index: 1000;
+  z-index: 1000; /* Ensure it floats above other content */
   font-size: 14px;
   text-align: left;
 }
@@ -254,18 +305,25 @@ p {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .player-stats {
-    position: static;
-    width: 100%;
-    margin-bottom: 10px;
-    background-color: transparent;
-    padding: 0;
+    position: fixed; /* Keep stats visible even when scrolling */
+    top: 10px;
+    left: 10px;
+    width: auto;
+    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
   }
 
   .message-log {
     right: 10px;
     top: 10px;
     width: 150px;
-    height: calc(100vh - 20px);
+    height: 200px;
+  }
+
+  .toggle-log-button {
+    right: 10px;
+    bottom: 220px; /* Position above the message log */
   }
 
   .tabs button,
@@ -282,27 +340,5 @@ p {
 
   .weapons-list li {
     font-size: 0.9rem; /* Smaller font size for smaller screens */
-  }
-}
-
-/* Vertical orientation adjustments */
-@media (orientation: portrait) {
-  .container {
-    flex-direction: column;
-  }
-
-  .player-stats {
-    position: static;
-    width: 100%;
-    margin-bottom: 10px;
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .message-log {
-    right: 10px;
-    top: 10px;
-    width: 150px;
-    height: calc(100vh - 20px);
   }
 }
